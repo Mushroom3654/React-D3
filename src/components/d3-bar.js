@@ -18,9 +18,12 @@ class D3Bar extends Component {
 
         //bar 란 태그 생성
         svg.selectAll("bar")
+            // data 를 미리 선택한 selection 객체에 바인드
             .data(this.props.data)
+            //enter()를 통해서 p 요소에 바인드가 되지 않는,
+            // 즉 대응하는 p 요소가 없는 데이터에 대해 새로운 selection 을 반환받음
             .enter()
-            // 바 차트 생성
+            // 선택된 요소들에 대해 실제로 rect 태그로 이루어진 바 생성.
             .append("rect")
             // d = 데이터 포인트 값, i = 데이터 포인트 인덱스
             // 막대 사이의 거리를 조절함
@@ -41,7 +44,7 @@ class D3Bar extends Component {
             })
             .on("mousemove", function (d) {
                 tooltip
-                    .html(`Data = ${d}`)
+                    .html(`Data <hr/>${d}`)
                     // 마우스 올릴시 툴팁 위치 지정
                     .style('left', `${d3.event.pageX - 74}px`)
                     .style('top', `${d3.event.pageY - 28}px`)
@@ -53,14 +56,20 @@ class D3Bar extends Component {
                tooltip.style('display', 'none');
             });
 
+        svg.append('g')
+            .enter()
+            .append('text')
+            .text('Bar Chart');
+
+
 
         svg.selectAll("text")
             .data(this.props.data)
             .enter()
             .append("text")
             .text((d) => d)
-            .attr("x", (d, i) => i * 75)
-            .attr("y", (d, i) => h - (10 * d) - 3);
+            .attr("x", (d, i) => i * 70 + 25)
+            .attr("y", (d) => h - (10 * d) - 3);
 
         //tooltip - 마우스 올렸을시 나오는 이벤트
         const tooltip = d3.select("div").append("div")
