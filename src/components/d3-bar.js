@@ -16,7 +16,7 @@ class D3Bar extends Component {
             .attr("height", h)
             .style("margin-left", 100);
 
-        //bar 란 태그 생성
+        //bar 태그 모두 선택
         svg.selectAll("bar")
             // data 를 미리 선택한 selection 객체에 바인드
             .data(this.props.data)
@@ -25,6 +25,8 @@ class D3Bar extends Component {
             .enter()
             // 선택된 요소들에 대해 실제로 rect 태그로 이루어진 바 생성.
             .append("rect")
+            //클래스 추가
+            .attr('class', 'bar')
             // d = 데이터 포인트 값, i = 데이터 포인트 인덱스
             // 막대 사이의 거리를 조절함
             .attr("x", (d, i)=> i * 70)
@@ -35,10 +37,10 @@ class D3Bar extends Component {
             //막대 넓이 조절
             .attr("width", 65)
             //막대 높이 조절
-            .attr("height", (d,i)=>10*d)
+            .attr("height", (d,i)=>d*10)
             //색깔
-            .attr("fill", "green")
-            .on("mouseover", function(d){
+            .attr("fill",  'deepskyblue')
+            .on("mouseover", function(){
               tooltip
                   .style('display', 'inline')
             })
@@ -56,20 +58,16 @@ class D3Bar extends Component {
                tooltip.style('display', 'none');
             });
 
-        svg.append('g')
-            .enter()
-            .append('text')
-            .text('Bar Chart');
-
-
-
+        // Label
         svg.selectAll("text")
             .data(this.props.data)
             .enter()
             .append("text")
             .text((d) => d)
-            .attr("x", (d, i) => i * 70 + 25)
-            .attr("y", (d) => h - (10 * d) - 3);
+            .attr("x", (d, i) => i * 70 + 24)
+            .attr("y", (d) => h - (10 * d) + 15)
+            .style('fill', 'black')
+            .style('font-weight', 'bold');
 
         //tooltip - 마우스 올렸을시 나오는 이벤트
         const tooltip = d3.select("div").append("div")
